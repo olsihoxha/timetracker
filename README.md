@@ -1,6 +1,6 @@
 # Django REST API
 
-This is a Django REST API project that allows users to interact with a database via HTTP requests.
+This is a Django REST API project that allows employees to set their working time via HTTP requests. And for the employer to track the data from the employee he wants and get it in a pdf as e-mail (PDF is a simplified version for testing purposes).
 
 ## Getting Started
 
