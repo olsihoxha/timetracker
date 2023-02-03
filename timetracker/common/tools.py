@@ -16,6 +16,8 @@ KEY_TO_NAME = {
     'time_end': 'Ended',
     'user': 'Email',
     'task': 'Task',
+    'status': 'Status',
+    'comments': 'Comments'
 }
 
 

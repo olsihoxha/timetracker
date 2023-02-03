@@ -4,8 +4,8 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 
 from time_tracker.models import TimeTrack
-from time_tracker.serializers import TimeTrackSerializers
-from timetracker.common.api_views import TTrackerListCreateAPIView
+from time_tracker.serializers import TimeTrackSerializers, TimeTrackUpdateSerializers
+from timetracker.common.api_views import TTrackerListCreateAPIView, TTrackerUpdateAPIView
 from timetracker.common.tools import send_pdf_as_email
 
 
@@ -17,6 +17,11 @@ class TimeTrackerView(TTrackerListCreateAPIView):
         user = self.request.user
         queryset = TimeTrack.objects.filter(user=user)
         return queryset
+
+
+class TimeTrackerRetrieveUpdate(TTrackerUpdateAPIView):
+    queryset = TimeTrack.objects.all()
+    serializer_class = TimeTrackUpdateSerializers
 
 
 @api_view(['POST'])

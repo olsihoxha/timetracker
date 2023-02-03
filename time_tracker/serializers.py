@@ -1,7 +1,7 @@
 from django.db.transaction import atomic
 from rest_framework import serializers
 
-from time_tracker.models import TimeTrack
+from time_tracker.models import TimeTrack, TimeTrackData, ClientUsers
 from timetracker.common.tools import check_time_overlap
 
 
@@ -41,3 +41,21 @@ class TimeTrackSerializers(serializers.ModelSerializer):
     @staticmethod
     def get_task_code(obj):
         return obj.task.task_code
+
+
+class TimeTrackUpdateSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = TimeTrack
+        fields = ['status', 'comments']
+
+    @atomic()
+    def update(self, instance, validated_data):
+        data = validated_data
+        TimeTrack.objects.filter(id=instance.id).update(**data)
+        user = self.context['request'].user
+        user_id = user.id
+        client_user = ClientUsers.objects.filter(user_id=user_id).first()
+        TimeTrackData.objects.create(client_user=client_user,
+                                     time_track=instance,
+                                     comments=data['comments'])
+        return instance
